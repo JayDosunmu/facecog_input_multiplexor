@@ -13,7 +13,9 @@ def register_device(host, port):
 
 if __name__ == '__main__':
     if len(sys.argv) == 3:
-        s = register_device(sys.argv[1], sys.argv[2])
+        host = sys.argv[1]
+        port = int(sys.argv[2])
+        s = register_device(host, port)
         s.sendall('Connected to Device')
 
         while 1:

@@ -8,19 +8,16 @@ class Device:
         pass
 
 
-devices = {}
+# devices = {}
 
-conn, addr = socket.accept()
-
-devices[addr] = Device(addr, conn)
+# devices[addr] = Device(addr, conn)
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
-        host = sys.argv[1]
-        post = int(sys.argv[2])
+    if len(sys.argv) == 2:
+        port = int(sys.argv[1])
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((host, post))
+        s.bind(('', port))
         s.listen(1)
         conn, addr = s.accept()
 
