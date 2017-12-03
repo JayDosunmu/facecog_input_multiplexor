@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Calibration
+        </title>
+        <style>
+            #center-message {
+                font-size: 32px;
+                font-family: sans-serif;
+                position: absolute;
+                top: 50%;
+                text-align: center;
+                width: 100%;
+            }
+
+            #number {
+                font-size: 40px;
+                color: red;
+            }
+
+            #red-circle {
+                border-radius: 100%;
+                background: red;
+                height: 70px;
+                position: absolute;
+                width: 70px;
+            }
+
+            .top-left {
+                top: 0;
+                left: 0;
+            }
+
+            .bottom-left {
+                left: 0;
+                bottom: 0;
+            }
+
+            .bottom-right {
+                right: 0;
+                bottom: 0;
+            }
+
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="red-circle" class="top-left">
+        </div>
+        <div id="center-message">
+            Please turn your head to face the RED CIRCLE
+            <br>
+            and press SPACE
+            <div id="number"></div>
+        </div>
+    </body>
+    <script>
+        window.onload = maxWindow;
+
+        var calibrate = 0; 
+
+        function setNumber(){
+            document.getElementById('number').innerHTML = 3-calibrate + ' more time(s)'; 
+        }
+
+        function maxWindow() {
+            window.moveTo(0, 0);
+
+
+            if (document.all) {
+                top.window.resizeTo(screen.availWidth, screen.availHeight);
+            }
+
+            else if (document.layers || document.getElementById) {
+                if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+                    top.window.outerHeight = screen.availHeight;
+                    top.window.outerWidth = screen.availWidth;
+                }
+            }
+            setNumber();
+        }
+
+        document.addEventListener('keydown', (event) => {
+            const keyName = event.key;
+
+            if (keyName === ' ') {
+                // do not alert when only Control key is pressed.
+                calibrate++;
+                if (calibrate == 3) {
+                    document.getElementById('red-circle').className = 'hidden';
+                    document.getElementById('center-message').innerHTML = 'Calibration complete.<br>You may close the window';
+                } else {
+                    if (calibrate == 0) {
+                        document.getElementById('red-circle').className = 'top-left';
+                    } else if (calibrate == 1) {
+                        document.getElementById('red-circle').className = 'bottom-left';
+                    } else if (calibrate == 2) {
+                        document.getElementById('red-circle').className = 'bottom-right';
+                    }
+                }
+                setNumber();
+            }
+        }, false);
+    </script>
+</html>
