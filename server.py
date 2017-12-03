@@ -45,24 +45,23 @@ def calibrate(device):
 
 
 def on_press(key):
-    kb.press(key)
     try:
-        print key
-        # if focused:
-        #     conn = devices[focused]
-        # conn.sendall(key.char)
-        # print('alphanumeric key {0} pressed'.format(
-        #     key.char))
+        print('alphanumeric key {0} pressed'.format(
+            key.char))
     except AttributeError:
         print('special key {0} pressed'.format(
             key))
-        if focused:
-            conn = devices[focused]
-            conn.sendall(key.char)
+    if focused:
+        conn = devices[focused]
+        print(key, focused)
+        conn.sendall("key pressed")
 
 
 def on_release(key):
-    kb.release(key)
+    print(key, focused)
+    if focused:
+        conn = devices[focused]
+        conn.sendall("key released")
     print('{0} released'.format(
         key))
     if key == keyboard.Key.esc:
@@ -86,11 +85,11 @@ if __name__ == '__main__':
             while 1:
                 print("In while loop")
                 conn, addr = s.accept()
-                devices[addr] = conn
+                devices[addr[1]] = conn
                 print('Connected by', addr)
 
                 if not focused:
-                    focused = addr
+                    focused = addr[1]
 
                 data = conn.recv(1024)
                 if data:

@@ -1,14 +1,14 @@
 # keyboard simulator
 import os
-import pyautogui
 import socket
 import sys
+import traceback
 import webbrowser
 
 from pynput import keyboard
 
 filename = 'index.html'
-
+kb = keyboard.Controller()
 
 def register(host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,16 +33,18 @@ if __name__ == '__main__':
 
             data = s.recv(1024)
             print(repr(data))
+            #kb.press(data)
             calibrate()
 
             while 1:
+                print("waiting for data")
                 data = s.recv(1024)
 
                 print("data received: " + repr(data))
-                break
         else:
             print('ERROR: Incorrect number of arguments used. ' +
                   'You must pass in the HOST and PORT of the endpoint to connect to\n' +
                   'Example: python client.py host_name port_number')
     except:
-        s.close()
+        traceback.print_exc();
+        # s.close()
